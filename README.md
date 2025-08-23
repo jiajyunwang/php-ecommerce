@@ -1,4 +1,4 @@
-# Laravel E-commerce
+# PHP E-commerce
 
 這是一個使用 PHP 所建立的一個電商網站。
 
