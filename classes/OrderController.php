@@ -78,16 +78,17 @@ class OrderController {
     }
 
     public function store($data) {
-        $nicknameErr = $nameErr = $cellphoneErr = $addressErr = ''; 
-        if (!empty($data['name'])) {
-            if (!preg_match('/([\w\-\.]+)/', $data['name'])) {
-                $_SESSION['nicknameErr'] = '匿名格式錯誤';
-                header("Location:".$_SERVER['HTTP_REFERER']);
-                exit;
-            }
+        if (empty($data['name'])) {
+            $_SESSION['nameErr'] = '姓名不可為空';
+            header("Location:".$_SERVER['HTTP_REFERER']);
+            exit;
         }
 
-        if (!empty($data['cellphone'])) {            
+        if (empty($data['cellphone'])) {
+            $_SESSION['cellphoneErr'] = '手機號碼不可為空';
+            header("Location:".$_SERVER['HTTP_REFERER']);
+            exit;
+        } else {            
             if (strlen($data['cellphone']) !== 10) {
                 $_SESSION['cellphoneErr'] = '手機號碼需10位數';
                 header("Location:".$_SERVER['HTTP_REFERER']);
@@ -95,12 +96,10 @@ class OrderController {
             }
         }
 
-        if (!empty($data['address'])) {
-            if (!preg_match('/([\w\-\.]+)/', $data['address'])) {
-                $_SESSION['addressErr'] = '地址格式錯誤';
-                header("Location:".$_SERVER['HTTP_REFERER']);
-                exit;
-            }
+        if (empty($data['address'])) {
+            $_SESSION['addressErr'] = '地址不可為空';
+            header("Location:".$_SERVER['HTTP_REFERER']);
+            exit;
         }
 
         if (!empty($data['paymentMethod'])) {
