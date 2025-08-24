@@ -287,7 +287,8 @@ class FrontendController extends DbController {
             $product['average'] = $average;
             $product['percentage'] = $percentage; 
         }
-
+        unset($product);
+        
         require_once 'views/frontend/index.php';
     }
 

@@ -118,6 +118,7 @@ class AdminController {
                 'unreadCount'=>$unreadCount
             ];
         }
+        unset($room);
         header('Content-Type: application/json');
         echo json_encode($rooms);
         exit;
@@ -239,7 +240,7 @@ class AdminController {
                 $order['order_details'][] = $orderDetail;
             }
         }   
-
+        unset($order);
         $type = $orders[0]['status'];
         require_once 'views/backend/order/index.php';
         exit;
