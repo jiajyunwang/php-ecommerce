@@ -43,7 +43,7 @@ require_once FRONT . 'inc/header.php';
                 <label>收件人<span>*</span></label> 
                 <input type="text" name="name" value="<?= $user['name'] ?>" required="required">
                 <?php if (isset($_SESSION['nameErr'])): ?>
-                    <span class="error"><?= $_SESSION['nicknameErr'] ?></span>
+                    <span class="error"><?= $_SESSION['nameErr'] ?></span>
                     <?php unset($_SESSION['nameErr']); ?>
                 <?php endif; ?>
 

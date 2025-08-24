@@ -10,27 +10,23 @@ require_once FRONT . 'inc/header.php';
     </div>
     <label>暱稱<span>*</span></label>
     <input type="text" name="nickname" value="<?= $user['nickname'] ?>">
-    <?php if (isset($nicknameErr)): ?>
-        <span class="error"><?= $nicknameErr ?></span>
+    <?php if (isset($_SESSION['nicknameErr'])): ?>
+        <span class="error"><?= $_SESSION['nicknameErr'] ?></span>
+        <?php unset($_SESSION['nicknameErr']); ?>
     <?php endif; ?>
 
     <label>姓名</label>
     <input type="text" name="name" value="<?= $user['name'] ?>">
-    <?php if (isset($nameErr)): ?>
-        <span class="error"><?= $nameErr ?></span>
-    <?php endif; ?>
 
     <label>手機號碼</label>
     <input type="tel" name="cellphone" value="<?= $user['cellphone'] ?>">
-    <?php if (isset($cellphoneErr)): ?>
-        <span class="error"><?= $cellphoneErr ?></span>
+    <?php if (isset($_SESSION['cellphoneErr'])): ?>
+        <span class="error"><?= $_SESSION['cellphoneErr'] ?></span>
+        <?php unset($_SESSION['cellphoneErr']); ?>
     <?php endif; ?>
 
     <label>地址</label>
     <input type="text" name="address" value="<?= $user['address'] ?>">
-    <?php if (isset($addressErr)): ?>
-        <span class="error"><?= $addressErr ?></span>
-    <?php endif; ?>
 
     <button type="submit">儲存</button>
 </form>

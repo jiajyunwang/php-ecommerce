@@ -18,7 +18,10 @@ $(function(){
                     $('#overlay').show();
                     setTimeout(function() {
                         $('#overlay').hide(); 
+                        window.location.href = '/account';
                     }, 3000);
+                } else if (response.error) {
+                    window.location.href = '/account';
                 } else {
                     alert('提交失敗');
                     $('#overlay').hide();

@@ -9,7 +9,7 @@ class LoginController {
 
     public function loginSubmit($email, $password) {
         $emailErr = $passwordErr = $loginErr = '';
-        if (empty($email)) {
+        if (empty(trim($email))) {
             $error['email'] = 'email不可為空';
             $this->login($error);
             exit;
@@ -21,7 +21,7 @@ class LoginController {
             }
         }
 
-        if (empty($password)) {
+        if (empty(trim($password))) {
             $error['password'] = '密碼不可為空';
             $this->login($error);
             exit;

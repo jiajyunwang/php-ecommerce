@@ -124,7 +124,7 @@ class FrontendController extends DbController {
     public function loginSubmit($email, $password) {
         $emailErr = $passwordErr = $loginErr = '';
 
-        if (empty($email)) {
+        if (empty(trim($email))) {
             $emailErr = 'email不可為空';
             $this->login($emailErr, $passwordErr, $loginErr);
             exit;
@@ -136,7 +136,7 @@ class FrontendController extends DbController {
             }
         }
 
-        if (empty($password)) {
+        if (empty(trim($password))) {
             $passwordErr = '密碼不可為空';
             $this->login($emailErr, $passwordErr, $loginErr);
             exit;
@@ -183,19 +183,13 @@ class FrontendController extends DbController {
     public function registerSubmit($nickname, $email, $password, $passwordConfirmation) {
         $nicknameErr = $emailErr = $passwordErr = $passwordConfirmationErr = $registerErr = '';
         $link = new DbController();
-        if (empty($nickname)) {
+        if (empty(trim($nickname))) {
             $nicknameErr = '匿名不可為空';
             $this->register($nicknameErr, $emailErr, $passwordErr, $passwordConfirmationErr, $registerErr);
             exit;
-        } else {
-            if (!preg_match('/([\w\-\.]+)/', $nickname)) {
-                $nicknameErr = '匿名格式錯誤';
-                $this->register($nicknameErr, $emailErr, $passwordErr, $passwordConfirmationErr, $registerErr);
-                exit;
-            }
         }
 
-        if (empty($email)) {
+        if (empty(trim($email))) {
             $emailErr = 'email不可為空';
             $this->register($nicknameErr, $emailErr, $passwordErr, $passwordConfirmationErr, $registerErr);
             exit;
@@ -215,7 +209,7 @@ class FrontendController extends DbController {
             }
         }
 
-        if (empty($password)) {
+        if (empty(trim($password))) {
             $passwordErr = '密碼不可為空';
             $this->register($nicknameErr, $emailErr, $passwordErr, $passwordConfirmationErr, $registerErr);
             exit;
@@ -227,7 +221,7 @@ class FrontendController extends DbController {
             }
         }
 
-        if (empty($passwordConfirmation)) {
+        if (empty(trim($passwordConfirmation))) {
             $passwordConfirmationErr = '密碼不可為空';
             $this->register($nicknameErr, $emailErr, $passwordErr, $passwordConfirmationErr, $registerErr);
             exit;
@@ -306,39 +300,18 @@ class FrontendController extends DbController {
     }
 
     public function accountSubmit($nickname, $name, $cellphone, $address) {
-        $nicknameErr = $nameErr = $cellphoneErr = $addressErr = '';
-        if (empty($nickname)) {
-            $nicknameErr = '匿名不可為空';
-            require_once 'views/frontend/pages/account.php';
+        if (empty(trim($nickname))) {
+            $_SESSION['nicknameErr'] = '姓名不可為空';
+            header('Content-Type: application/json');
+            echo json_encode(['error' => true]);
             exit;
-        } else {
-            if (!preg_match('/([\w\-\.]+)/', $nickname)) {
-                $nicknameErr = '匿名格式錯誤';
-                require_once 'views/frontend/pages/account.php';
-                exit;
-            }
         }
 
-        if (!empty($name)) {
-            if (!preg_match('/([\w\-\.]+)/', $name)) {
-                $nameErr = '名稱格式錯誤';
-                require_once 'views/frontend/pages/account.php';
-                exit;
-            }
-        }
-
-        if (!empty($cellphone)) {            
-            if (strlen($cellphone) !== 10) {
-                $cellphoneErr = '手機號碼需10位數';
-                require_once 'views/frontend/pages/account.php';
-                exit;
-            }
-        }
-
-        if (!empty($address)) {
-            if (!preg_match('/([\w\-\.]+)/', $address)) {
-                $addressErr = '地址格式錯誤';
-                require_once 'views/frontend/pages/account.php';
+        if (!empty(trim($data['cellphone']))) {
+            if (strlen($data['cellphone']) !== 10) {
+                $_SESSION['cellphoneErr'] = '手機號碼需10位數';
+                header('Content-Type: application/json');
+                echo json_encode(['error' => true]);
                 exit;
             }
         }
@@ -350,6 +323,7 @@ class FrontendController extends DbController {
 
         header('Content-Type: application/json');
         echo json_encode(['success' => true, 'message' => 'Account updated successfully.']);
+        exit;
     }
 
     public function requestAction($slug, $quantity, $requestAction) {

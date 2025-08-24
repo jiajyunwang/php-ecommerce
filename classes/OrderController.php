@@ -78,13 +78,13 @@ class OrderController {
     }
 
     public function store($data) {
-        if (empty($data['name'])) {
+        if (empty(trim($data['name']))) {
             $_SESSION['nameErr'] = '姓名不可為空';
             header("Location:".$_SERVER['HTTP_REFERER']);
             exit;
         }
 
-        if (empty($data['cellphone'])) {
+        if (empty(trim($data['cellphone']))) {
             $_SESSION['cellphoneErr'] = '手機號碼不可為空';
             header("Location:".$_SERVER['HTTP_REFERER']);
             exit;
@@ -96,13 +96,13 @@ class OrderController {
             }
         }
 
-        if (empty($data['address'])) {
+        if (empty(trim($data['address']))) {
             $_SESSION['addressErr'] = '地址不可為空';
             header("Location:".$_SERVER['HTTP_REFERER']);
             exit;
         }
 
-        if (!empty($data['paymentMethod'])) {
+        if (!empty(trim($data['paymentMethod']))) {
             if (!preg_match('/([\w\-]+)/', $data['paymentMethod'])) {
                 header("Location:".$_SERVER['HTTP_REFERER']);
                 exit;

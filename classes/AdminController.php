@@ -207,7 +207,7 @@ class AdminController {
     }
 
     public function searchByOrderNumber($orderNumber) {
-        if (empty($orderNumber)) {
+        if (empty(trim($orderNumber))) {
             $_SESSION['order'] = '搜尋欄不可為空';
             header("Location:".$_SERVER['HTTP_REFERER']);
             exit;
