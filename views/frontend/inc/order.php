@@ -1,5 +1,5 @@
 <?php foreach ($orders as $order): ?>
-<?php require_once FRONT . 'inc/order_review.php' ?>
+<?php require FRONT . 'inc/order_review.php' ?>
     <div class="content">
         <div class="order-header">
             <?php if ($type=='unhandled'): ?>

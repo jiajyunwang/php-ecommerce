@@ -513,8 +513,8 @@ class AdminController {
             </html>
         ";
         $pdf = new Pdf($html);
-        $pdf->binary =  'C:/Program Files/wkhtmltopdf/bin/wkhtmltopdf';
-        $pdf->send('test.pdf');
+        $pdf->binary = '/usr/bin/wkhtmltopdf';  
+        $pdf->send();
         exit;
     }
 
