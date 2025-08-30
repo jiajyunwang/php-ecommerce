@@ -121,15 +121,35 @@ class OrderController {
 
         $ids = $data['product_id'];
         $index = 0;
-        foreach($ids as $id){
-            $link = new DbController();
-            $productSql = "SELECT * FROM `products` WHERE `id`='$id' LIMIT 1";
-            $product = mysqli_fetch_assoc($link->connect()->query($productSql));
-            $stock = $product['stock'] - $data['quantity'][$index];
-            $index += 1;
-            $productSql = "UPDATE `products` SET `stock`='$stock'  WHERE `id`='$id' LIMIT 1";
-            $link->connect()->query($productSql);
+        $link = new DbController();
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+        foreach($ids as $id) {
+            $link->connect()->begin_transaction();
+            try {
+                $qty = (int)$data['quantity'][$index];
+
+                $productSql = $link->connect()->prepare(
+                    "UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?"
+                );
+                $productSql->bind_param("iii", $qty, $id, $qty);
+                $productSql->execute();
+
+                if ($productSql->affected_rows !== 1) {
+                    $link->connect()->rollback();
+                    $_SESSION['err'] = '庫存不足';
+                    header("Location:".$_SERVER['HTTP_REFERER']);
+                    exit;
+                }
+
+                $link->connect()->commit();
+            } catch (\Throwable $error) {
+                $link->connect()->rollback();
+                $_SESSION['err'] = '結帳失敗，請重新嘗試';
+                header("Location:".$_SERVER['HTTP_REFERER']);
+                exit;
+            }
+            $index += 1;
             $productSql = "SELECT * FROM `products` WHERE `id`='$id' LIMIT 1;";
             $product = $link->connect()->query($productSql);
             $product = mysqli_fetch_assoc($product);
@@ -145,8 +165,8 @@ class OrderController {
 
         $order = $this->order->create($data, $userId);
         $index = 0;        
-        $link = new DbController();
-        foreach($ids as $id){
+ 
+        foreach($ids as $id) {
             $productSql = "SELECT * FROM `products` WHERE `id`='$id' LIMIT 1";
             $product = mysqli_fetch_assoc($link->connect()->query($productSql));
             $orderNumber = $order['order_number'];

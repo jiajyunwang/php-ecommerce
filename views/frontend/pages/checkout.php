@@ -46,6 +46,10 @@ require_once FRONT . 'inc/header.php';
                     <span class="error"><?= $_SESSION['nameErr'] ?></span>
                     <?php unset($_SESSION['nameErr']); ?>
                 <?php endif; ?>
+                <?php if (isset($_SESSION['err'])): ?>
+                    <span class="error"><?= $_SESSION['err'] ?></span>
+                    <?php unset($_SESSION['err']); ?>
+                <?php endif; ?>
 
                 <label>手機<span>*</span></label> 
                 <input type="text" name="cellphone" value="<?= $user['cellphone'] ?>" required="required">
